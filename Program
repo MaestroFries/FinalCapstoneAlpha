@@ -1,0 +1,188 @@
+#include "opencv2/core/core.hpp"
+#include "opencv2/highgui/highgui.hpp"
+#include "opencv2/imgproc/imgproc.hpp"
+#include <iomanip>
+#include <algorithm>
+#include "userinterface.h"
+#include "iostream"
+
+using namespace cv;
+using namespace std;
+
+
+
+/*std::string rgb2hex(const Mat& r.at<float>(0), const Mat& g, const Mat& b, bool with_head)
+{
+    std::stringstream ss;
+    if (with_head)
+        ss << "#";
+    ss << std::hex << (r << 16 | g << 8 | b);
+    return ss.str();
+}*/
+
+Mat showCenters(const Mat& centers, const Mat& labels, const Mat& data, int siz = 64) {
+
+    Mat cent = centers.reshape(3, centers.rows);
+    
+    //april 4 int dat = data.total();
+    //cout << labels;
+    // make  a horizontal bar of K color patches:
+    Mat draw(siz, siz * cent.rows, cent.type(), Scalar::all(0));
+
+    cout << endl << "BGR Dominance\n";
+    for (int i = 0; i < cent.rows; i++) {
+        // set the resp. ROI to hat value (just fill it):
+        draw(Rect(i * siz, 0, siz, siz)) = cent.at<Vec3f>(i, 0);
+
+        double numerator = static_cast<float>(countNonZero(labels == i));
+        double denominator = static_cast<float>(data.total());
+
+        double percentage = numerator/denominator;
+
+        
+        cout << "Cluster " << i + 1 << ": " << cent.at<Vec3f>(i, 0) << " | Pixel Count: " << countNonZero(labels == i) << " | Percentage: " << std::setprecision(3) << percentage*100.0 << "% \n";
+        //cout << dat << endl;
+
+    }
+    draw.convertTo(draw, CV_8U);
+
+    // optional visualization:
+
+    imshow("CENTERS", draw);
+    waitKey();
+
+    //imwrite("centers.png", draw);
+    cout << "-----------------\n";
+    return draw;
+}
+
+void compactness()
+{
+    Mat src;
+    std::string image_path;
+
+    std::string response;
+    // do kmeans
+
+    
+
+    cout << "\nEnter file path of image (JPG format: ex. D:/Documents/Francis Reyes - Assignments/Capstone Alpha/Resources/smb.jpg\n";
+
+    std::cin.ignore();
+
+    std::getline(std::cin, response);
+
+    image_path = samples::findFile(response);
+
+    std::cout << "\n\n";
+    for (int k = 1; k < 15; k++)
+    {
+        src = imread(image_path, IMREAD_COLOR);
+
+        Mat labels, centers;
+        Mat data;
+        src.convertTo(data, CV_32F);
+        data = data.reshape(1, data.total());
+
+        double compactness = kmeans(data, k, labels, TermCriteria(TermCriteria::MAX_ITER, 10, 1.0), 3, KMEANS_PP_CENTERS, centers);
+
+
+
+
+        //cout << labels;
+
+        //int t = std::count(labels., labels, 0);
+
+
+        // reshape both to a single row of Vec3f pixels:
+
+        centers = centers.reshape(3, centers.rows);
+        data = data.reshape(3, data.rows);
+
+        // replace pixel values with their center value:
+        Vec3f* p = data.ptr<Vec3f>();
+        for (size_t i = 0; i < data.rows; i++) {
+            int center_id = labels.at<int>(i, 0);
+
+
+            p[i] = centers.at<Vec3f>(center_id);
+
+
+
+        }
+
+        Mat b;
+        Mat g;
+        Mat r;
+
+        extractChannel(centers, b, 0);
+        extractChannel(centers, g, 1);
+        extractChannel(centers, r, 2);
+
+
+        //cout << b.at<float>(0) << endl;
+        //cout << g.at<float>(0) << endl;
+        //cout << r.at<float>(0) << endl;
+
+        char hexColour[8];
+
+        std::snprintf(hexColour, sizeof hexColour, "#%02x%02x%02x", r, g, b);
+
+        //std::cout << hexColour;
+        //std::fill(hexColour[0], hexColour[8], 0);
+
+        //04-09 fix hex later!!
+        // back to 2d, and uchar:
+        src = data.reshape(3, src.rows);
+        src.convertTo(src, CV_8U);
+
+        std::cout << "compactness at K = " << k << ": " << compactness << endl;
+
+        //visualize data:
+        imshow("Image", src);
+        showCenters(centers, labels, data);
+
+        destroyAllWindows();
+    }
+}
+int main()
+{
+
+    int triforce[30];
+    int menuResponse;
+
+
+
+    //iterate through each and every compactness to determine optimal k:
+    
+    titleScreen();
+    cout << "Menu (Select from 1-4)\n1.Colour Capture\n2.Colour Quantization\n3.Info\n";
+    cin >> menuResponse;
+
+    switch (menuResponse)
+    {
+        case 1:
+        {
+            compactness();
+            break;
+        }
+        case 2:
+        {
+            std::cout << "Among us";
+        }
+        default: std::cout << "Bad input.\n";
+
+        
+
+    }
+}
+
+    
+
+
+
+
+
+//to do list [x] - done | [o] - in progress 
+// [] showcase bgr of promiment colours in order.
+// [] - percentage with dat
