@@ -1,0 +1,377 @@
+#include "opencv2/core/core.hpp"
+#include "opencv2/highgui/highgui.hpp"
+#include "opencv2/imgproc/imgproc.hpp"
+#include <iomanip>
+#include <algorithm>
+#include "userinterface.h"
+#include <conio.h>
+#include <stdlib.h>
+#include "iostream"
+
+using namespace cv;
+using namespace std;
+
+
+
+std::string rgb2hex(int r, int g, int b, bool with_head)
+{
+    std::stringstream ss;
+    if (with_head)
+        ss << "#";
+    ss << std::hex << (r << 16 | g << 8 | b);
+    return ss.str();
+}
+
+Mat showCenters(const Mat& centers, const Mat& labels, const Mat& data, int siz = 64) {
+
+    Mat cent = centers.reshape(3, centers.rows);
+
+    //april 4 int dat = data.total();
+    //cout << labels;
+    // make  a horizontal bar of K color patches:
+    Mat draw(siz, siz * cent.rows, cent.type(), Scalar::all(0));
+
+    cout << endl << "BGR Dominance\n";
+    for (int i = 0; i < cent.rows; i++) {
+        // set the resp. ROI to hat value (just fill it):
+        draw(Rect(i * siz, 0, siz, siz)) = cent.at<Vec3f>(i, 0);
+
+        double numerator = static_cast<float>(countNonZero(labels == i));
+        double denominator = static_cast<float>(data.total());
+
+        double percentage = numerator / denominator;
+
+
+        cout << "Cluster " << i + 1 << ": " << cent.at<Vec3f>(i, 0) << " | Pixel Count: " << countNonZero(labels == i) << " | Percentage: " << std::setprecision(3) << percentage * 100.0 << "% \n";
+        //cout << dat << endl;
+
+    }
+    draw.convertTo(draw, CV_8U);
+
+    // optional visualization:
+
+    imshow("Colour Palette", draw);
+    waitKey();
+
+    //imwrite("centers.png", draw);
+    cout << "-----------------\n";
+    return draw;
+}
+
+void compactness(Mat src, std::string image_path)
+{
+    system("CLS");
+    titleScreen();
+
+    for (int k = 1; k < 11; k++)
+    {
+        src = imread(image_path, IMREAD_COLOR);
+        Mat labels, centers;
+        Mat data;
+        src.convertTo(data, CV_32F);
+        data = data.reshape(1, data.total());
+
+        double compactness = kmeans(data, k, labels, TermCriteria(TermCriteria::MAX_ITER, 10, 1.0), 3, KMEANS_PP_CENTERS, centers);
+        //cout << labels;
+
+        //int t = std::count(labels., labels, 0);
+
+
+        // reshape both to a single row of Vec3f pixels:
+
+        centers = centers.reshape(3, centers.rows);
+        data = data.reshape(3, data.rows);
+
+        // replace pixel values with their center value:
+        Vec3f* p = data.ptr<Vec3f>();
+        for (size_t i = 0; i < data.rows; i++) {
+            int center_id = labels.at<int>(i, 0);
+
+
+            p[i] = centers.at<Vec3f>(center_id);
+
+
+
+        }
+
+        Mat b;
+        Mat g;
+        Mat r;
+
+        extractChannel(centers, b, 0);
+        extractChannel(centers, g, 1);
+        extractChannel(centers, r, 2);
+
+        src = data.reshape(3, src.rows);
+        src.convertTo(src, CV_8U);
+
+        std::cout << "Compactness when K = " << k << ": " << compactness << endl;
+
+        //visualize data:
+        imshow("Image", src);
+        showCenters(centers, labels, data);
+
+        destroyAllWindows();
+    }
+}
+
+void colourCapture(Mat src, std::string image_path)
+{
+    system("CLS");
+    titleScreen();
+
+    int k;
+    cout << "Select the amount of colours you would like to display (IMPORTANT: Picking a larger number than 10 yields greater results, depending on the image's complexity).\n";
+    cin >> k;
+    
+    
+        src = imread(image_path, IMREAD_COLOR);
+        Mat labels, centers;
+        Mat data;
+        src.convertTo(data, CV_32F);
+        data = data.reshape(1, data.total());
+
+        double compactness = kmeans(data, k, labels, TermCriteria(TermCriteria::MAX_ITER, 10, 1.0), 3, KMEANS_PP_CENTERS, centers);
+        //cout << labels;
+
+        //int t = std::count(labels., labels, 0);
+
+
+        // reshape both to a single row of Vec3f pixels:
+
+        centers = centers.reshape(3, centers.rows);
+        data = data.reshape(3, data.rows);
+
+        // replace pixel values with their center value:
+        Vec3f* p = data.ptr<Vec3f>();
+        for (size_t i = 0; i < data.rows; i++) {
+            int center_id = labels.at<int>(i, 0);
+
+
+            p[i] = centers.at<Vec3f>(center_id);
+
+
+
+        }
+
+        Mat b;
+        Mat g;
+        Mat r;
+
+        extractChannel(centers, b, 0);
+        extractChannel(centers, g, 1);
+        extractChannel(centers, r, 2);
+
+        src = data.reshape(3, src.rows);
+        src.convertTo(src, CV_8U);
+
+        std::cout << "Compactness when K = " << k << ": " << compactness << endl;
+
+        //visualize data:
+        imshow("Image", src);
+        showCenters(centers, labels, data);
+
+        destroyAllWindows();
+ 
+}
+void coordinates(Mat src, std::string image_path)
+{
+    system("CLS");
+    int x, y;
+    int b, g, r;
+    int coordResponse;
+    bool state = true;
+
+    
+
+
+    while (state)
+    {
+        titleScreen();
+
+        src = imread(image_path, IMREAD_COLOR);
+
+        cout << "Image Path: " << image_path << endl;
+        cout << "Image Width: " << src.rows << endl;
+        cout << "Image Height: " << src.cols << endl;
+        std::cout << "----------------" << endl;
+        cout << "Select x pixel coordinate:\n";
+        
+        cin >> x;
+
+        while (x > src.rows)
+        {
+            cin.ignore();
+            cout << "X value greater than image width. Please try again.\n";
+            cin >> x;
+        }
+
+        cout << "X: " << x << "\nSelect y pixel coordinate:\n";
+        cin >> y;
+
+        while (y > src.cols)
+        {
+            cin.ignore();
+            cout << "Y value greater than image height. Please try again.\n";
+            cin >> y;
+        }
+        cout << "X: " << x << " | Y: " << y << "\n\n\n\n";
+
+        Vec3b intensity2 = src.at<Vec3b>(x, y);
+        b = intensity2.val[0];
+        g = intensity2.val[1];
+        r = intensity2.val[2];
+       
+        cout << "BGR Intensity = " << b << " " << g << " " << r << endl;
+        cout << "Hex = " << rgb2hex(r, g, b,true);
+        circle(src, Point(x, y), 8, Scalar(0, 0, 255), 2);
+        
+        namedWindow("Original image");
+        imshow("Original image", src);
+        waitKey(0);
+        destroyWindow("Original image");
+
+        std::cout << "\nDo you want to continue your search? 1 = yes | 0 = no\n";
+        std::cin >> coordResponse;
+        system("CLS");
+        if (coordResponse == 0)
+        {
+            state = !state;
+        }
+    }
+
+}
+
+
+
+int main()
+{
+    bool exitLoop = true;
+
+    long menuResponse;
+    long beginning;
+    Mat src;
+    std::string image_path;
+    std::string response;
+
+
+
+
+    titleScreen();
+    cout << "\nSelect which image you would like to use (input number):\n1. Amongus\n2. Mario\n3. Starry Nights\n";
+    cin >> beginning;
+
+    switch (beginning)
+    {
+    case 1:
+    {
+        image_path = samples::findFile("C:/sus.jpg");
+        break;
+    }
+    case 2:
+    {
+        image_path = samples::findFile("C:/worldoneone.jpg");
+        break;
+    }
+    case 3:
+    {
+        image_path = samples::findFile("C:/starrynights.jpg");
+        break;
+    }
+    }
+
+
+
+    
+
+    //std::getline(std::cin, response);
+
+
+
+    
+
+    src = imread(image_path, IMREAD_COLOR);
+
+    if (src.empty())
+    {
+        std::cout << "Image not loaded\n";
+        cin.get();
+    }
+
+
+    //iterate through each and every compactness to determine optimal k:
+    
+    system("CLS");
+    do
+    {
+        system("CLS");
+        titleScreen();
+        
+        cout << "Menu (Select from 1-4)\n1.Colour Capture\n2.Colour Quantization\n3.X/Y Coordinates\n4. Exit\n5. Use Amongus Image\n6. Use Mario image\n7. Use Starry Nights\n";
+        cin >> menuResponse;
+
+        if (menuResponse > 10)
+        {
+            cin.ignore();
+            std::cout << "Invalid Input";
+        }
+        system("CLS");
+        switch (menuResponse)
+        {
+        case 1:
+        {
+            colourCapture(src, image_path);
+            break;
+        }
+        case 2:
+        {
+            compactness(src, image_path);
+            
+            break;
+        }
+        case 3:
+        {
+            coordinates(src, image_path);
+            
+            break;
+            
+        }
+        case 4:
+        {
+            exitLoop = false;
+            break;
+        }
+        case 5:
+        {
+            image_path = samples::findFile("C:/sus.jpg");
+            break;
+        }
+        case 6:
+        {
+            image_path = samples::findFile("C:/worldoneone.jpg");
+            break;
+        }
+        case 7:
+        {
+            image_path = samples::findFile("C:/starrynights.jpg");
+            break;
+        }
+        default: std::cout << "Bad input.\n";
+            exitLoop = false;
+
+
+
+        }
+    } while (exitLoop = true);
+    
+    return 0;
+}
+
+
+
+
+
+
+
+//to do list [x] - done | [o] - in progress 
+// [o]  
