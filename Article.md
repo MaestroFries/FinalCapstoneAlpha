@@ -41,7 +41,8 @@ cout << "Select x pixel coordinate:\n";
         r = intensity2.val[2];
 
 ```
-By using the `.at` function which returns a reference to the specified array element (in this case, 'x' and 'y'), we are able to grab BGR values by calling seperate array indexes.
+By using the `.at` function which returns a reference to the specified array element (in this case, 'x' and 'y'), we are able to grab BGR values by calling seperate array indexes. (Vec3b is a vector with 3 byte entries, with each representing each single color channel.)
+
 
 
 
