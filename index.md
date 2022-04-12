@@ -1,6 +1,6 @@
-## Welcome to GitHub Pages
+# Colour Capture 
 
-You can use the [editor on GitHub](https://github.com/MaestroFries/FinalCapstoneAlpha/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+This article will aim to summarize our code as means of showcasing our programming competencies.
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
