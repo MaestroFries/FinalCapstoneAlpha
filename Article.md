@@ -17,7 +17,31 @@ The goal of this project is to analyze images using OpenCV's library, displaying
 
 
 ## OpenCV for image anaylsis
+Before diving into K-Means Clustering, let's talk about image analysis. In order to analyze image data, we used OpenCV's wide library for computer vision (artifical inteligence). 
 
+```
+Mat src1;
+ 
+std::string image_path = samples::findFile("C:/Users/Francis/Documents/images/mario.jpg");
+
+src1 = imread(image_path, IMREAD_COLOR);
+```
+
+We can simply access an image by initializing class variable `src1` to the image path, using function `imread()` to read the file.
+```
+cout << "Select x pixel coordinate:\n";
+        cin >> x;
+        cout << "X: " << x << "\nSelect y pixel coordinate:\n";
+        cin >> y;
+        cout << "X: " << x << " | Y: " << y << "\n\n\n\n";
+
+        Vec3b intensity2 = src1.at<Vec3b>(x, y);
+        b = intensity2.val[0];
+        g = intensity2.val[1];
+        r = intensity2.val[2];
+
+```
+By using the `.at` function which returns a reference to the specified array element (in this case, 'x' and 'y'), we are able to grab BGR values by calling seperate array indexes.
 
 
 
