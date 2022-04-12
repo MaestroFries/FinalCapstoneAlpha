@@ -1,6 +1,29 @@
 # Colour Capture 
 
-This article will aim to summarize our code as means of showcasing our programming competencies.
+This article will aim to summarize our program as means of showcasing our programming competencies.
+
+Table of Content:
+
+1. Project Summary
+2. Using OpenCV for image analysis 
+3. K-Means Clustering & Elbow Point
+4. Colour Capture/Quantization
+
+
+## Project Summary
+
+The goal of this project is to analyze images using OpenCV's library, displaying BGR data into graphs and a colour palette that will determine optimal results. Functions such as `kmeans()` and `imread()` are used extensively to do such and will be explained in detail. 
+
+
+
+## OpenCV for image anaylsis
+
+
+
+
+
+
+
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
