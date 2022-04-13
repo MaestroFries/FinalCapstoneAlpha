@@ -1,4 +1,4 @@
-# Colour Capture 
+# Colour Capture - STEM 11 Capstone Alpha
 
 This article will aim to summarize our program as means of showcasing what we have learnt over the span of three weeks. In addition, it will serve to compliment the poster if questions are present.
 
@@ -23,14 +23,14 @@ The goal of this project is to analyze images using OpenCV, displaying colour da
 Before diving into K-Means Clustering, let's talk about image analysis. In order to analyze image data, we used OpenCV's wide library for computer vision (artifical inteligence). 
 
 ```
-Mat src1;
+Mat src;
  
 std::string image_path = samples::findFile("C:/Users/Francis/Documents/images/mario.jpg");
 
-src1 = imread(image_path, IMREAD_COLOR);
+src = imread(image_path, IMREAD_COLOR);
 ```
 
-We can simply access an image by initializing class variable `src1` to the image path, using function `imread()` to read the file.
+We can simply access an image by initializing class variable `src` to the image path, using function `imread()` to read the file.
 ```
 cout << "Select x pixel coordinate:\n";
         cin >> x;
@@ -38,7 +38,7 @@ cout << "Select x pixel coordinate:\n";
         cin >> y;
         cout << "X: " << x << " | Y: " << y << "\n\n\n\n";
 
-        Vec3b intensity2 = src1.at<Vec3b>(x, y);
+        Vec3b intensity2 = src.at<Vec3b>(x, y);
         b = intensity2.val[0];
         g = intensity2.val[1];
         r = intensity2.val[2];
@@ -102,7 +102,13 @@ One way of finding the optimal k is the elbow method. If we were to compare comp
 ![ElbowPoint1](elbowone.jpg)
 ![ElbowPoint2](amongus.jpg)
 
-In the examples above, we can determine the optimal k by finding the "elbow" point of the data line. S
+In the examples above, we can determine the optimal k by finding the "elbow" point of the data line. The elbow point can be defined as the point before the compactness starts to level out or decrease in difference. This will be important once we impliment 'kmeans()' into our colour program.
+
+
+## Colour Capture
+
+It's time to merge all the forces into one program!
+
 //remind to show borat.
 
 
