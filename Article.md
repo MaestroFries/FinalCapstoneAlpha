@@ -114,7 +114,7 @@ It's time to merge all the forces into one program!
 ```
     Mat labels, centers;
     Mat data;
-
+    int k = 10; // example
     src = imread(image_path, IMREAD_COLOR);
     src.convertTo(data, CV_32F); //convert the data to CV_32F (float) between the range of 0-1.0 to ease kmeans().
 
@@ -144,7 +144,7 @@ It's time to merge all the forces into one program!
 
     //visualize data:
     imshow("Image", src);
-    showCenters(centers, labels, data);
+    printColour(centers, labels, data);
 
 ```
 
@@ -152,12 +152,10 @@ It's time to merge all the forces into one program!
 In order to print a colour palette...
 ```
 
-Mat showCenters(const Mat& centers, const Mat& labels, const Mat& data, int siz = 64) {
+Mat printColour(const Mat& centers, const Mat& labels, const Mat& data, int siz = 64) { //pass Mat variables as parameters
 
     Mat cent = centers.reshape(3, centers.rows);
 
-    //april 4 int dat = data.total();
-    //cout << labels;
     // make  a horizontal bar of K color patches:
     Mat draw(siz, siz * cent.rows, cent.type(), Scalar::all(0));
 
@@ -173,21 +171,24 @@ Mat showCenters(const Mat& centers, const Mat& labels, const Mat& data, int siz 
 
 
         cout << "Cluster " << i + 1 << ": " << cent.at<Vec3f>(i, 0) << " | Pixel Count: " << countNonZero(labels == i) << " | Percentage: " << std::setprecision(3) << percentage * 100.0 << "% \n";
-        //cout << dat << endl;
+        
 
     }
-    draw.convertTo(draw, CV_8U);
+    
+    draw.convertTo(draw, CV_8U); //convert draw data to CV_8U
 
-    // optional visualization:
-
+    //visualization
     imshow("Colour Palette", draw);
     waitKey();
-
-    //imwrite("centers.png", draw);
+    
     cout << "-----------------\n";
     return draw;
 }
+
 ```
+
+
+## Colour Quantization
 //remind to show borat.
 
 
