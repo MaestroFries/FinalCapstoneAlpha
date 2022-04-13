@@ -1,22 +1,25 @@
 # Colour Capture 
 
-This article will aim to summarize our program as means of showcasing our programming competencies.
+This article will aim to summarize our program as means of showcasing what we have learnt over the span of three weeks. In addition, it will serve to compliment the poster if questions are present.
 
 Table of Content:
 
 1. Project Summary
-2. Using OpenCV for image analysis 
+2. Using OpenCV for image analysis & Excel File
 3. K-Means Clustering & Elbow Point
 4. Colour Capture/Quantization
 
 
+
 ## Project Summary
 
-The goal of this project is to analyze images using OpenCV's library, displaying BGR data into graphs and a colour palette that will determine optimal results. Functions such as `kmeans()` and `imread()` are used extensively to do such and will be explained in detail. 
+The goal of this project is to analyze images using OpenCV, displaying colour data into graphs and a colour palette that will determine optimal results. Functions such as `kmeans()` and `imread()` are used extensively to do such and will be explained in detail. 
 
 
 
-## OpenCV for image anaylsis
+
+
+## OpenCV for image anaylsis & Writing to Excel File
 Before diving into K-Means Clustering, let's talk about image analysis. In order to analyze image data, we used OpenCV's wide library for computer vision (artifical inteligence). 
 
 ```
@@ -42,6 +45,29 @@ cout << "Select x pixel coordinate:\n";
 
 ```
 By using the `.at` function which returns a reference to the specified array element (in this case, 'x' and 'y'), we are able to grab BGR values by calling seperate array indexes. (Vec3b is a vector with 3 byte entries, with each representing each single color channel.)
+
+Now that we are able to access colour data from the image, we can write to an Excel file by using the `fstream` library found in C++.
+
+```
+#include <fstream>
+
+...
+
+ofstream outData;
+
+outData.open("CapstoneExceltest.csv", ios::app); // opens the Excel file
+
+outData << intensity2.val[0] << "," << intensity2.val[1] << "," << intensity2.val[2] << endl; //outputs BGR to Excel
+```
+
+Learning how to retrieve colour data from an image and to write to an Excel file will serve us well when implimenting the next step: K-Means Clustering.
+
+## K-Means Clustering
+
+
+
+
+
 
 
 
