@@ -196,11 +196,35 @@ Output:
 ![Imposter3](imposter3.jpg)
 
 
-`compactness()` deals with taking the BGR values from an image and uses it with 'kmeans()' to find the compactness, labels, and centers. While compactness may not be important when using it to strictly find each colour's BGR value, labels allows us to find a percentage of how many of one colour is present (look at definition of `printColour()`). 
+`compactness()` deals with taking the BGR values from an image and uses it with 'kmeans()' to find the compactness, labels, and centers. While compactness may not be important when using it to strictly find each colour's BGR value, labels allows us to find a percentage of how many of one colour is present (look at definition of `printColour()`). Pretty cool!
+
+In addition to a colour capture program, we were also able to create a colour quantization program using 'kmeans()'.
 
 ## Colour Quantization
 
-For Colour Quant
+Colour quantization is the process of minimizing the amount of distinct colours used in an image while maintaining integrity over the original image. We can also use this to determine the optimal k value using the elbow point. In the art world, this can be used to create new art with existing art!
+
+To apply it in code...
+```
+for (int k = 1; k < 15; k++)
+{
+   //similar code to compactness()
+   double compactness = kmeans(data, k, labels, TermCriteria(TermCriteria::MAX_ITER, 10, 1.0), 3, KMEANS_PP_CENTERS, centers);
+   
+   //print
+}
+
+```
+
+If we were to work with `k = 1`, there would only be one colour cluster containing all the pixel data. The centroid would be the colour used in the image, and therefore would not be accurate. If `k` is greater, there would be more colour clusters containing data closest to each centroid. Accuracy will be bad until an elbow point is found. Let's do it by putting it into a graph!
+
+```
+outData << k << "," << compactness  << endl;
+```
+Now that our data is in Excel, let's find the elbow point.
+
+
+
 
 
 //remind to show borat.
