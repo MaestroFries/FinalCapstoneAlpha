@@ -4,10 +4,10 @@
 #include <iomanip>
 #include <algorithm>
 #include "userinterface.h"
-#include <conio.h>
-#include <stdlib.h>
+#include "conio.h"
+#include "stdlib.h"
 #include <limits>
-#include "iostream"
+#include <iostream>
 
 
 using namespace cv;
@@ -15,21 +15,19 @@ using namespace std;
 
 
 
-std::string rgb2hex(int r, int g, int b, bool with_head)
+string rgb2hex(int r, int g, int b, bool with_head)
 {
-    std::stringstream ss;
+    stringstream ss;
     if (with_head)
         ss << "#";
-    ss << std::hex << (r << 16 | g << 8 | b);
+    ss << hex << (r << 16 | g << 8 | b);
     return ss.str();
 }
 
-Mat showCenters(const Mat& centers, const Mat& labels, const Mat& data, int siz = 64) {
+Mat printColours(const Mat& centers, const Mat& labels, const Mat& data, int siz = 64) {
 
     Mat cent = centers.reshape(3, centers.rows);
 
-    //april 4 int dat = data.total();
-    //cout << labels;
     // make  a horizontal bar of K color patches:
     Mat draw(siz, siz * cent.rows, cent.type(), Scalar::all(0));
 
@@ -44,23 +42,20 @@ Mat showCenters(const Mat& centers, const Mat& labels, const Mat& data, int siz 
         double percentage = numerator / denominator;
 
 
-        cout << "Cluster " << i + 1 << ": " << cent.at<Vec3f>(i, 0) << " | Pixel Count: " << countNonZero(labels == i) << " | Percentage: " << std::setprecision(3) << percentage * 100.0 << "% \n";
-        //cout << dat << endl;
+        cout << "Cluster " << i + 1 << ": " << cent.at<Vec3f>(i, 0) << " | Pixel Count: " << countNonZero(labels == i) << " | Percentage: " << setprecision(3) << percentage * 100.0 << "% \n";
 
     }
     draw.convertTo(draw, CV_8U);
 
-    // optional visualization:
 
     imshow("Colour Palette", draw);
     waitKey();
 
-    //imwrite("centers.png", draw);
     cout << "-----------------\n";
     return draw;
 }
 
-void compactness(Mat src, std::string image_path)
+void compactness(Mat src, string image_path)
 {
     system("CLS");
     titleScreen();
@@ -74,9 +69,7 @@ void compactness(Mat src, std::string image_path)
         data = data.reshape(1, data.total());
 
         double compactness = kmeans(data, k, labels, TermCriteria(TermCriteria::MAX_ITER, 10, 1.0), 3, KMEANS_PP_CENTERS, centers);
-        //cout << labels;
 
-        //int t = std::count(labels., labels, 0);
 
 
         // reshape both to a single row of Vec3f pixels:
@@ -96,28 +89,21 @@ void compactness(Mat src, std::string image_path)
 
         }
 
-        Mat b;
-        Mat g;
-        Mat r;
-
-        extractChannel(centers, b, 0);
-        extractChannel(centers, g, 1);
-        extractChannel(centers, r, 2);
 
         src = data.reshape(3, src.rows);
         src.convertTo(src, CV_8U);
 
-        std::cout << "Compactness when K = " << k << ": " << compactness << endl;
+        cout << "Compactness when K = " << k << ": " << compactness << endl;
 
         //visualize data:
         imshow("Image", src);
-        showCenters(centers, labels, data);
+        printColours(centers, labels, data);
 
         destroyAllWindows();
     }
 }
 
-void colourCapture(Mat src, std::string image_path)
+void colourCapture(Mat src, string image_path)
 {
 
     system("CLS");
@@ -125,14 +111,14 @@ void colourCapture(Mat src, std::string image_path)
 
     int k;
 
-    while ((std::cout << "\nSelect the amount of colours you would like to display (IMPORTANT: A greater number yields greater results. Max k value is 30)\n")
-        && !(std::cin >> k) || (k < 1 || k > 30)) {
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    while ((cout << "\nSelect the amount of colours you would like to display (IMPORTANT: A greater number yields greater results. Max k value is 30)\n")
+        && !(cin >> k) || (k < 1 || k > 30)) {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
         system("CLS");
         titleScreen();
-        std::cout << "Invalid input. Please input a number coresponding to choice. \n";
+        cout << "Invalid input. Please input a number coresponding to choice. \n";
     }
 
 
@@ -143,9 +129,8 @@ void colourCapture(Mat src, std::string image_path)
     data = data.reshape(1, data.total());
 
     double compactness = kmeans(data, k, labels, TermCriteria(TermCriteria::MAX_ITER, 10, 1.0), 3, KMEANS_PP_CENTERS, centers);
-    //cout << labels;
 
-    //int t = std::count(labels., labels, 0);
+
 
 
     // reshape both to a single row of Vec3f pixels:
@@ -165,27 +150,21 @@ void colourCapture(Mat src, std::string image_path)
 
     }
 
-    Mat b;
-    Mat g;
-    Mat r;
-
-    extractChannel(centers, b, 0);
-    extractChannel(centers, g, 1);
-    extractChannel(centers, r, 2);
 
     src = data.reshape(3, src.rows);
     src.convertTo(src, CV_8U);
 
-    std::cout << "Compactness when K = " << k << ": " << compactness << endl;
+    cout << "Compactness when K = " << k << ": " << compactness << endl;
 
     //visualize data:
     imshow("Image", src);
-    showCenters(centers, labels, data);
+    printColours(centers, labels, data);
 
     destroyAllWindows();
 
 }
-void coordinates(Mat src, std::string image_path)
+
+void coordinates(Mat src, string image_path)
 {
     system("CLS");
     int x, y;
@@ -205,41 +184,53 @@ void coordinates(Mat src, std::string image_path)
         cout << "Image Path: " << image_path << endl;
         cout << "Image Width: " << src.rows << endl;
         cout << "Image Height: " << src.cols << endl;
-        std::cout << "----------------" << endl;
+        cout << "----------------" << endl;
      
 
        
 
-        while ((std::cout << "Select x pixel coordinate:\n")
-            && !(std::cin >> x) || (x < 1 || x > src.rows)) {
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        while ((cout << "Select x pixel coordinate:\n")
+            && !(cin >> x) || (x < 1 || x > src.rows)) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
             system("CLS");
             titleScreen();
             cout << "Image Path: " << image_path << endl;
             cout << "Image Width: " << src.rows << endl;
             cout << "Image Height: " << src.cols << endl;
-            std::cout << "----------------" << endl;
-            std::cout << "Invalid input. Please input a number coresponding to the image. \n";
+            cout << "----------------" << endl;
+            cout << "Invalid input. Please input a number coresponding to the image. \n";
         }
 
 
-        while ((std::cout << "Select y pixel coordinate:\n")
-            && !(std::cin >> y) || (y < 1 || y > src.cols)) {
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        while ((cout << "Select y pixel coordinate:\n")
+            && !(cin >> y) || (y < 1 || y > src.cols)) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
             system("CLS");
             titleScreen();
             cout << "Image Path: " << image_path << endl;
             cout << "Image Width: " << src.rows << endl;
             cout << "Image Height: " << src.cols << endl;
-            std::cout << "----------------" << endl;
-            std::cout << "X: " << x << "\n";
-            std::cout << "Invalid input. Please input a number coresponding to the image. \n";
+            cout << "----------------" << endl;
+            cout << "X: " << x << "\n";
+            cout << "Invalid input. Please input a number coresponding to the image. \n";
         }
+
+
         cout << "X: " << x << " | Y: " << y << "\n\n\n\n";
+
+        if (x >= src.rows)
+        {
+            x = src.rows - 1;
+        }
+
+        if (y >= src.cols)
+        {
+            y = src.cols - 1;
+        }
 
         Vec3b intensity2 = src.at<Vec3b>(x, y);
         b = intensity2.val[0];
@@ -258,14 +249,14 @@ void coordinates(Mat src, std::string image_path)
 
 
 
-        while ((std::cout << "\nDo you want to continue your search? 2 = yes | 1 = no\n")
-            && !(std::cin >> coordResponse) || (coordResponse < 1 || coordResponse > 2)) {
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        while ((cout << "\nDo you want to continue your search? 2 = yes | 1 = no\n")
+            && !(cin >> coordResponse) || (coordResponse < 1 || coordResponse > 2)) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
             system("CLS");
             titleScreen();
-            std::cout << "Invalid input. Please input a number coresponding to choice. \n";
+            cout << "Invalid input. Please input a number coresponding to choice. \n";
         }
         system("CLS");
         if (coordResponse == 1)
@@ -285,28 +276,19 @@ int main()
     int menuResponse;
     int beginning;
     Mat src;
-    std::string image_path;
-    std::string response;
-
-
-
+    string image_path;
+    string response;
 
     titleScreen();
-    //cout << "\nSelect which image you would like to use (input number):\n1. Amongus\n2. Mario\n3. Starry Nights\n";
 
-
-
-
-    
-
-    while ((std::cout << "\nSelect which image you would like to use (input number):\n1. Amongus\n2. Mario\n3. Starry Nights\n")
-        && !(std::cin >> beginning) || (beginning < 1 || beginning > 3)) {
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    while ((cout << "\nSelect which image you would like to use (input number):\n1. Amongus\n2. Mario\n3. Starry Nights\n")
+        && !(cin >> beginning) || (beginning < 1 || beginning > 3)) {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
         system("CLS");
         titleScreen();
-        std::cout << "Invalid input. Please input a number coresponding to the image. \n";
+        cout << "Invalid input. Please input a number coresponding to the image. \n";
     }
 
     switch (beginning)
@@ -329,47 +311,34 @@ int main()
 
     }
 
-
-
-
-
-    //std::getline(std::cin, response);
-
-
-
-
-
     src = imread(image_path, IMREAD_COLOR);
 
     if (src.empty())
     {
-        std::cout << "Image not loaded\n";
+        cout << "Image not loaded\n";
         cin.get();
     }
-
-
-    //iterate through each and every compactness to determine optimal k:
 
     system("CLS");
     do
     {
         system("CLS");
         titleScreen();
+        src = imread(image_path, IMREAD_COLOR);
 
-        //cout << "Menu (Select from 1-4)\n1.Colour Capture\n2.Colour Quantization\n3.X/Y Coordinates\n4. Exit\n5. Use Amongus Image\n6. Use Mario image\n7. Use Starry Nights\n";
         cout << "Image Path: " << image_path << endl;
         cout << "Image Width: " << src.rows << endl;
         cout << "Image Height: " << src.cols << endl;
-        std::cout << "----------------" << endl;
+        cout << "----------------" << endl;
 
-        while ((std::cout << "Menu (Select from 1-4)\n1.Colour Capture\n2.Colour Quantization\n3.X/Y Coordinates\n\n4. Use Amongus Image\n5. Use Mario image\n6. Use Starry Nights\n")
-            && !(std::cin >> menuResponse) || (menuResponse < 1 || menuResponse > 7)) {
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        while ((cout << "Menu (Select from 1-4)\n1.Colour Capture\n2.Colour Quantization\n3.X/Y Coordinates\n\n4. Use Amongus Image\n5. Use Mario image\n6. Use Starry Nights\n")
+            && !(cin >> menuResponse) || (menuResponse < 1 || menuResponse > 7)) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
             system("CLS");
             titleScreen();
-            std::cout << "Invalid input. Please input a number coresponding to the image. \n";
+            cout << "Invalid input. Please input a number coresponding to the image. \n";
         }
         
 
@@ -409,7 +378,7 @@ int main()
             image_path = samples::findFile("C:/starrynights.jpg");
             break;
         }
-        default: std::cout << "Bad input.\n";
+        default: cout << "Bad input.\n";
             exitLoop = false;
 
 
@@ -426,5 +395,3 @@ int main()
 
 
 
-//to do list [x] - done | [o] - in progress 
-// [o]  
