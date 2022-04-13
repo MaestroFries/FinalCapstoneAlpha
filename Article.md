@@ -70,7 +70,7 @@ K-Means Clustering is the process of partitioning data points into k clusters in
 
 1. Centroids are randomly placed. The number of centroids (K) used is up to the user. Refer to Colour Quantization to determine optimal K value.
 2. Each data point is intialized to its closest centroid using euclidean distance.
-3. Determine the where the new centroid would be in the cluster by finding the mean.
+3. Determine where the new centroid would be in the cluster by finding the mean of a cluster.
 4. Repeat steps 2-3 until movement has ceased. 
 
 
