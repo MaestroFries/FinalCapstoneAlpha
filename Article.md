@@ -74,7 +74,7 @@ K-Means Clustering is the process of partitioning data points into k clusters in
 4. Repeat steps 2-3 until movement has ceased. 
 
 
-
+![KMeansClusteringExample](gif.gif)
 
 
 
