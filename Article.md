@@ -109,6 +109,85 @@ In the examples above, we can determine the optimal k by finding the "elbow" poi
 
 It's time to merge all the forces into one program!
 
+
+
+```
+    Mat labels, centers;
+    Mat data;
+
+    src = imread(image_path, IMREAD_COLOR);
+    src.convertTo(data, CV_32F); //convert the data to CV_32F (float) between the range of 0-1.0 to ease kmeans().
+
+    
+    data = data.reshape(1, data.total());
+
+    double compactness = kmeans(data, k, labels, TermCriteria(TermCriteria::MAX_ITER, 10, 1.0), 3, KMEANS_PP_CENTERS, centers);
+    
+    // reshape both to a single row of Vec3f pixels:
+
+    centers = centers.reshape(3, centers.rows);
+    data = data.reshape(3, data.rows);
+
+    // replace pixel values with their center value:
+    Vec3f* p = data.ptr<Vec3f>();
+    for (size_t i = 0; i < data.rows; i++) {
+        int center_id = labels.at<int>(i, 0);
+
+
+        p[i] = centers.at<Vec3f>(center_id);
+
+
+    }
+
+    src = data.reshape(3, src.rows);
+    src.convertTo(src, CV_8U);
+
+    std::cout << "Compactness when K = " << k << ": " << compactness << endl;
+
+    //visualize data:
+    imshow("Image", src);
+    showCenters(centers, labels, data);
+
+```
+
+```
+
+Mat showCenters(const Mat& centers, const Mat& labels, const Mat& data, int siz = 64) {
+
+    Mat cent = centers.reshape(3, centers.rows);
+
+    //april 4 int dat = data.total();
+    //cout << labels;
+    // make  a horizontal bar of K color patches:
+    Mat draw(siz, siz * cent.rows, cent.type(), Scalar::all(0));
+
+    cout << endl << "BGR Dominance\n";
+    for (int i = 0; i < cent.rows; i++) {
+        // set the resp. ROI to hat value (just fill it):
+        draw(Rect(i * siz, 0, siz, siz)) = cent.at<Vec3f>(i, 0);
+
+        double numerator = static_cast<float>(countNonZero(labels == i));
+        double denominator = static_cast<float>(data.total());
+
+        double percentage = numerator / denominator;
+
+
+        cout << "Cluster " << i + 1 << ": " << cent.at<Vec3f>(i, 0) << " | Pixel Count: " << countNonZero(labels == i) << " | Percentage: " << std::setprecision(3) << percentage * 100.0 << "% \n";
+        //cout << dat << endl;
+
+    }
+    draw.convertTo(draw, CV_8U);
+
+    // optional visualization:
+
+    imshow("Colour Palette", draw);
+    waitKey();
+
+    //imwrite("centers.png", draw);
+    cout << "-----------------\n";
+    return draw;
+}
+```
 //remind to show borat.
 
 
