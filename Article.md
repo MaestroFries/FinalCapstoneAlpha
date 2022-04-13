@@ -97,7 +97,11 @@ With this in mind, we can finally determine the optimal k value with these param
 
 In the gif above, it is obvious to the human that there are five clusters present. Therefore, when we have to input a k value into 'kmeans()', we can simply make initialize 'k = 5' and retrieve good results. However, if we had to work with data with myriads of clusters (such as an image), it would be a pain to count each and every one of these clusters! How will we be able to find the optimal k value?
 
-One way of finding the optimal k is the elbow method. 
+One way of finding the optimal k is the elbow method. If we were to compare compactness to k on a graph, there will be a decrease in compactness as we increase the amount of centroids used.
+
+![ElbowPoint](amongus.jpg)
+
+//remind to show borat.
 
 
 
