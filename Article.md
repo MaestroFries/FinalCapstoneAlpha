@@ -19,7 +19,7 @@ The goal of this project is to analyze images using OpenCV, displaying colour da
 
 
 
-## OpenCV for image analysis & Writing to Excel File
+## OpenCV for Image Analysis & Writing to Excel File
 Before diving into K-Means Clustering, let's talk about image analysis. In order to analyze image data, we used OpenCV's wide library for computer vision (artifical inteligence). 
 
 ```
