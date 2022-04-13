@@ -226,6 +226,7 @@ Now that our data is in Excel, let's find the elbow point.
 ![Imposter1](ezgif.com-gif-maker.gif)
 ![Imposter1](ezgif.com-gif-maker(2).gif)
 (refresh page or press image to see gif)
+
 The elbow point may vary to person to person, but in our case, it can found as the data starts to level off; therefore, optimal k may be 8 before it becomes redundant.
 
 
