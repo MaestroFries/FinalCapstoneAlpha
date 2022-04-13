@@ -68,7 +68,7 @@ As humans, looking at an image and determining which colours are prominent withi
 
 K-Means Clustering is the process of partitioning data points into k clusters in reference to a centroid, or the center point of the cluster (the mean of all data points). Whilst complicated at first, the steps it takes are linear in fashion:
 
-1. Centroids are randomly placed. The number of centroids (K) used is up to the user. Refer to Colour Quantization to determine optimal K value.
+1. Centroids are randomly placed. The number of centroids (K) used is up to the user. Refer to Elbow Point and Colour Quantization to determine optimal K value.
 2. Each data point is intialized to its closest centroid using euclidean distance.
 3. Determine where the new centroid would be in the cluster by finding the mean of a cluster.
 4. Repeat steps 2-3 until movement has ceased. 
@@ -91,10 +91,13 @@ https://docs.opencv.org/4.x/d1/d5c/tutorial_py_kmeans_opencv.html
 - Centers is simply the center of clusters. 
 - (The other input parameters are used to determine when to stop the algorithm, how many clusters (K), etc...)
 
+With this in mind, we can finally determine the optimal k value with these parameters.
 
+### Elbow Method (data analysis)
 
+In the gif above, it is obvious to the human that there are five clusters present. Therefore, when we have to input a k value into 'kmeans()', we can simply make initialize 'k = 5' and retrieve good results. However, if we had to work with data with myriads of clusters (such as an image), it would be a pain to count each and every one of these clusters! How will we be able to find the optimal k value?
 
-
+One way of finding the optimal k is the elbow method. 
 
 
 
