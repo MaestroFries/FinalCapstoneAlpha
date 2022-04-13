@@ -227,7 +227,14 @@ Now that our data is in Excel, let's find the elbow point.
 ![Imposter1](ezgif.com-gif-maker(2).gif)
 (refresh page or press image to see gif)
 
-The elbow point may vary to person to person, but in our case, it can found as the data starts to level off; therefore, optimal k may be 8 before it becomes redundant.
+The elbow point may vary to person to person, but in our case, it can found as the data starts to level off; therefore, optimal k may be 8 before it becomes redundant. 
+
+
+### Conclusion: FAQ
+
+**Why is the project using a BGR colour model rather than RGB?**
+
+Because of OpenCV! According to their website, "The reason the early developers at OpenCV chose BGR color format is that back then BGR color format was popular among camera manufacturers and software providers. E.g. in Windows, when specifying color value using COLORREF they use the BGR format 0x00bbggrr. BGR was a choice made for historical reasons and now we have to live with it. In other words, BGR is the horse’s ass in OpenCV."
 
 
 
