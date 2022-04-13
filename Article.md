@@ -77,6 +77,8 @@ K-Means Clustering is the process of partitioning data points into k clusters in
 ![KMeansClusteringExample](gif.gif)
 
 
+Because of this, K-Means Clustering can be used to organize BGR data into colour clusters, albeit in a three dimension space (BGR... right?). Luckily, OpenCV has a function dedicated to K-means clustering!
+
 
 
 
