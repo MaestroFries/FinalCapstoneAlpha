@@ -19,7 +19,7 @@ The goal of this project is to analyze images using OpenCV, displaying colour da
 
 
 
-## OpenCV for image anaylsis & Writing to Excel File
+## OpenCV for image analysis & Writing to Excel File
 Before diving into K-Means Clustering, let's talk about image analysis. In order to analyze image data, we used OpenCV's wide library for computer vision (artifical inteligence). 
 
 ```
@@ -79,6 +79,17 @@ K-Means Clustering is the process of partitioning data points into k clusters in
 
 Because of this, K-Means Clustering can be used to organize BGR data into colour clusters, albeit in a three dimension space (BGR... right?). Luckily, OpenCV has a function dedicated to K-means clustering!
 
+```
+double compactness = kmeans(data, k, labels, TermCriteria(TermCriteria::MAX_ITER, 10, 1.0), 3, KMEANS_PP_CENTERS, centers);
+```
+https://docs.opencv.org/4.x/d1/d5c/tutorial_py_kmeans_opencv.html
+
+`kmeans()` has three output parameters which are of **great importance**: compactness, labels, and centers.
+
+- Compactness refers to the sum of squared distance from each point to their centroid within each cluster. 
+- Labels is an array which initalizes each pixel as "0", "1", "2"... depending on which cluster it is inside. 
+- Centers is simply the center of clusters. 
+- (The other input parameters are used to determine when to stop the algorithm, how many clusters (K), etc...)
 
 
 
