@@ -188,9 +188,10 @@ Mat printColour(const Mat& centers, const Mat& labels, const Mat& data, int siz 
 ```
 
 Output:
+
 ![Imposter1](imposter.jpg)
 ![Imposter2](imposter2.jpg)
-
+![Imposter3](imposter3.jpg)
 
 
 ## Colour Quantization
