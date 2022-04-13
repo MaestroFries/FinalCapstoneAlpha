@@ -187,6 +187,11 @@ Mat printColour(const Mat& centers, const Mat& labels, const Mat& data, int siz 
 
 ```
 
+Output:
+![Imposter1](imposter.jpg)
+![Imposter2](imposter2.jpg)
+
+
 
 ## Colour Quantization
 //remind to show borat.
