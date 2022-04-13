@@ -75,7 +75,7 @@ K-Means Clustering is the process of partitioning data points into k clusters in
 
 
 ![KMeansClusteringExample](gif.gif)
-(refresh page to see animation)
+(refresh page or presse image to see animation)
 
 Because of this, K-Means Clustering can be used to organize BGR data into colour clusters, albeit in a three dimension space (BGR... right?). Luckily, OpenCV has a function dedicated to K-means clustering!
 
@@ -225,7 +225,7 @@ Now that our data is in Excel, let's find the elbow point.
 
 ![Imposter1](ezgif.com-gif-maker.gif)
 ![Imposter1](ezgif.com-gif-maker(2).gif)
-
+(refresh page or press image to see gif)
 The elbow point may vary to person to person, but in our case, it can found as the data starts to level off; therefore, optimal k may be 8 before it becomes redundant.
 
 
