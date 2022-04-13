@@ -13,7 +13,7 @@ Table of Content:
 
 ## Project Summary
 
-The goal of this project is to analyze images using OpenCV, displaying colour data into graphs and a colour palette that will determine optimal results. Functions such as `kmeans()` and `imread()` are used extensively to do such and will be explained in detail. 
+The goal of this project is to analyze images using OpenCV, displaying colour data into graphs and a colour palette of prominent colours that will determine optimal results. Functions such as `kmeans()` and `imread()` are used extensively to do such and will be explained in detail. 
 
 
 
@@ -63,6 +63,16 @@ outData << intensity2.val[0] << "," << intensity2.val[1] << "," << intensity2.va
 Learning how to retrieve colour data from an image and to write to an Excel file will serve us well when implimenting the next step: K-Means Clustering.
 
 ## K-Means Clustering
+
+As humans, looking at an image and determining which colours are prominent within an image is simple. For machines, doing such a task requires artificial intelligence. Therefore, we decided to use K-Means Clustering as our "go-to" algorithm.
+
+K-Means Clustering is the process of partitioning data points into k clusters in reference to a centroid, or the center point of the cluster (the mean of all data points). Whilst complicated at first, the steps it takes are linear in fashion:
+
+1. Centroids are randomly placed. The number of centroids (K) used is up to the user. Refer to Colour Quantization to determine optimal K value.
+2. Each data point is intialized to its closest centroid using euclidean distance.
+3. Determine the where the new centroid would be in the cluster by finding the mean.
+4. Repeat steps 2-3 until movement has ceased. 
+
 
 
 
