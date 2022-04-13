@@ -99,8 +99,10 @@ In the gif above, it is obvious to the human that there are five clusters presen
 
 One way of finding the optimal k is the elbow method. If we were to compare compactness to k on a graph, there will be a decrease in compactness as we increase the amount of centroids used.
 
-![ElbowPoint](amongus.jpg)
+![ElbowPoint1](elbowone.jpg)
+![ElbowPoint2](amongus.jpg)
 
+In the examples above, we can determine the optimal k by finding the "elbow" point of the data line. S
 //remind to show borat.
 
 
