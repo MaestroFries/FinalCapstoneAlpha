@@ -30,7 +30,7 @@ std::string image_path = samples::findFile("C:/Users/Francis/Documents/images/ma
 src = imread(image_path, IMREAD_COLOR);
 ```
 
-We can simply access an image by initializing class variable `src` to the image path, using function `imread()` to read the file.
+We can simply access an image by initializing class variable `src` to the image path, using function `imread()` to read the file. The `mat` class is used for matrixes (arrays).
 ```
 cout << "Select x pixel coordinate:\n";
         cin >> x;
@@ -119,12 +119,12 @@ It's time to merge all the forces into one program!
     src.convertTo(data, CV_32F); //convert the data to CV_32F (float) between the range of 0-1.0 to ease kmeans().
 
     
-    data = data.reshape(1, data.total());
+    data = data.reshape(1, data.total()); //the matrix will only have one channel.
 
     double compactness = kmeans(data, k, labels, TermCriteria(TermCriteria::MAX_ITER, 10, 1.0), 3, KMEANS_PP_CENTERS, centers);
     
-    // reshape both to a single row of Vec3f pixels:
-
+    
+    // reshape both to a single row of Vec3f pixels.
     centers = centers.reshape(3, centers.rows);
     data = data.reshape(3, data.rows);
 
@@ -135,14 +135,12 @@ It's time to merge all the forces into one program!
 
 
         p[i] = centers.at<Vec3f>(center_id);
-
-
     }
 
     src = data.reshape(3, src.rows);
-    src.convertTo(src, CV_8U);
+    src.convertTo(src, CV_8U); //convert data back to CV_8U between the range of 0-255 for BGR values.
 
-    std::cout << "Compactness when K = " << k << ": " << compactness << endl;
+    std::cout << "Compactness when K = " << k << ": " << compactness << endl; // print compactness and k.
 
     //visualize data:
     imshow("Image", src);
@@ -150,6 +148,8 @@ It's time to merge all the forces into one program!
 
 ```
 
+
+In order to print a colour palette...
 ```
 
 Mat showCenters(const Mat& centers, const Mat& labels, const Mat& data, int siz = 64) {
