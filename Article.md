@@ -13,7 +13,7 @@ Table of Content:
 
 ## Project Summary
 
-The goal of this project is to analyze images using OpenCV, displaying colour data into graphs and a colour palette of prominent colours that will determine optimal results. Functions such as `kmeans()` and `imread()` are used extensively to do such and will be explained in detail. 
+The goal of this project is to analyze images using OpenCV, displaying colour data with graphs and a colour palette of prominent colours that will determine optimal results. Functions such as `kmeans()` and `imread()` are used extensively to do such and will be explained in detail. 
 
 
 
