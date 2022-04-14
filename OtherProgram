@@ -182,38 +182,38 @@ void coordinates(Mat src, string image_path)
         src = imread(image_path, IMREAD_COLOR);
 
         cout << "Image Path: " << image_path << endl;
-        cout << "Image Width: " << src.rows << endl;
-        cout << "Image Height: " << src.cols << endl;
+        cout << "Image Width: " << src.cols << endl;
+        cout << "Image Height: " << src.rows << endl;
         cout << "----------------" << endl;
      
 
        
 
         while ((cout << "Select x pixel coordinate:\n")
-            && !(cin >> x) || (x < 1 || x > src.rows)) {
+            && !(cin >> x) || (x < 1 || x > src.cols)) {
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
             system("CLS");
             titleScreen();
             cout << "Image Path: " << image_path << endl;
-            cout << "Image Width: " << src.rows << endl;
-            cout << "Image Height: " << src.cols << endl;
+            cout << "Image Width: " << src.cols << endl;
+            cout << "Image Height: " << src.rows << endl;
             cout << "----------------" << endl;
             cout << "Invalid input. Please input a number coresponding to the image. \n";
         }
 
 
         while ((cout << "Select y pixel coordinate:\n")
-            && !(cin >> y) || (y < 1 || y > src.cols)) {
+            && !(cin >> y) || (y < 1 || y > src.rows)) {
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
             system("CLS");
             titleScreen();
             cout << "Image Path: " << image_path << endl;
-            cout << "Image Width: " << src.rows << endl;
-            cout << "Image Height: " << src.cols << endl;
+            cout << "Image Width: " << src.cols << endl;
+            cout << "Image Height: " << src.rows << endl;
             cout << "----------------" << endl;
             cout << "X: " << x << "\n";
             cout << "Invalid input. Please input a number coresponding to the image. \n";
@@ -222,24 +222,24 @@ void coordinates(Mat src, string image_path)
 
         cout << "X: " << x << " | Y: " << y << "\n\n\n\n";
 
-        if (x >= src.rows)
+        if (x >= src.cols)
         {
-            x = src.rows - 1;
+            x = src.cols - 1;
         }
 
-        if (y >= src.cols)
+        if (y >= src.rows)
         {
-            y = src.cols - 1;
+            y = src.rows - 1;
         }
 
-        Vec3b intensity2 = src.at<Vec3b>(x, y);
+        Vec3b intensity2 = src.at<Vec3b>(y, x);
         b = intensity2.val[0];
         g = intensity2.val[1];
         r = intensity2.val[2];
 
         cout << "BGR Intensity = " << b << " " << g << " " << r << endl;
         cout << "Hex = " << rgb2hex(r, g, b, true);
-        circle(src, Point(x, y), 8, Scalar(0, 0, 255), 2);
+        circle(src, Point(x, y), 8, Scalar(255, 255, 255), 2);
 
         namedWindow("Original image");
         imshow("Original image", src);
@@ -281,7 +281,7 @@ int main()
 
     titleScreen();
 
-    while ((cout << "\nSelect which image you would like to use (input number):\n1. Amongus\n2. Mario\n3. Starry Nights\n")
+    while ((cout << "\nSelect which image you would like to use (input number and press enter):\n1. Amongus\n2. Mario\n3. Sunset Painting\n")
         && !(cin >> beginning) || (beginning < 1 || beginning > 3)) {
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -305,7 +305,7 @@ int main()
     }
     case 3:
     {
-        image_path = samples::findFile("C:/starrynights.jpg");
+        image_path = samples::findFile("C:/Users/Francis/Downloads/sunset.jpg");
         break;
     }
 
@@ -327,11 +327,11 @@ int main()
         src = imread(image_path, IMREAD_COLOR);
 
         cout << "Image Path: " << image_path << endl;
-        cout << "Image Width: " << src.rows << endl;
-        cout << "Image Height: " << src.cols << endl;
+        cout << "Image Width: " << src.cols << endl;
+        cout << "Image Height: " << src.rows << endl;
         cout << "----------------" << endl;
 
-        while ((cout << "Menu (Select from 1-4)\n1.Colour Capture\n2.Colour Quantization\n3.X/Y Coordinates\n\n4. Use Amongus Image\n5. Use Mario image\n6. Use Starry Nights\n")
+        while ((cout << "Menu (Select from 1-4)\n1.Colour Capture\n2.Colour Quantization\n3.X/Y Coordinates\n\n4. Use Amongus Image\n5. Use Mario image\n6. Use Sunset Painting\n")
             && !(cin >> menuResponse) || (menuResponse < 1 || menuResponse > 7)) {
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -375,7 +375,7 @@ int main()
         }
         case 6:
         {
-            image_path = samples::findFile("C:/starrynights.jpg");
+            image_path = samples::findFile("C:/Users/Francis/Downloads/sunset.jpg");
             break;
         }
         default: cout << "Bad input.\n";
