@@ -238,7 +238,7 @@ Because of OpenCV! According to their website, "The reason the early developers 
 
 
 
-//remind to show borat.
+
 
 
 
