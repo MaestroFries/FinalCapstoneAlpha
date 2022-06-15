@@ -1,4 +1,4 @@
-# Colour Capture - STEM 11 Capstone Alpha
+# Colour Capture 1.0/2.0 - STEM 11 Capstone
 
 This article will aim to summarize our program as means of showcasing what we have learnt over the span of three weeks. In addition, it will serve to compliment the poster if questions are present.
 
